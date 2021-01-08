@@ -113,7 +113,7 @@ int32_t mod8(int32_t x) {
       Ou seja, o resto da divisão por 8 só considerará os últimos 3 bits do número
       Portanto, podemos ignorar todos os outros bits, aplicando uma máscara 0b0...0111 que zerará todos os primeiros bits do número
 
-      Se x for negativo, representao em complemento a dois, podemos escrever como x = -2^31 * d31 + ... + 2^3 * d3 + 2^2 * d2 + 2^1 * d1 + 2^0 * d0
+      Se x for negativo, representado em complemento a dois, podemos escrever como x = -2^31 * d31 + ... + 2^3 * d3 + 2^2 * d2 + 2^1 * d1 + 2^0 * d0
       E de maneira análoga a anterior, conseguir o módulo usando a mesma máscara
     */
 	
@@ -305,7 +305,7 @@ int32_t mult7(int32_t x) {
  */
 int32_t bitEmP(int32_t x, uint8_t p) {
     /*
-      Para executar essa operação, podemos deslocar todos os bits do número p vezes para a esquerda
+      Para executar essa operação, podemos deslocar todos os bits do número p vezes para a direita
       Isso fara com que o bit na posição p seja colocado na posição 1
 
       Daí podemos aplicar uma máscara para ignorar todos os bits que não são o menos significativo
