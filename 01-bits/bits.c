@@ -168,11 +168,15 @@ int32_t bitwiseAnd(int32_t x, int32_t y) {
 	que compare valores. Contudo, comparar os valores de "x" e "y" com operadores "|" ou "^" 
 	por si só não nos traria o resultado esperado. 
 
-	Desejamos a operação AND "&", que é contrária à operação OR "|". Por isso, iremos 
-	complementar os valores recebidos, utilizando o operador "~" em cada um, além de
-	realizar uma operação OR, obtendo: (~x | ~y). Contudo, ainda não será suficiente.
+	Desejamos a operação AND "&", que é contrária à operação OR "|". Enquanto o operador AND
+	repete o valor "1" quando ele está presente nos bits dos dois números comparados, o operador
+	OR repete o valor "1" simplesmente por ele estar presente no bit de pelo menos um dos dois
+	números comparados.
 
-	Adicionado a isso, por se tratar de uma operação inversa, precisaremos complementar o produto
+	Por isso, iremos complementar os valores recebidos, invertendo-os, utilizando o operador "~"
+	em cada um, além de realizar uma operação OR, obtendo: (~x | ~y). Contudo, ainda não será suficiente.
+
+	Adicionado a isso, por se tratar de uma operação contrária, precisaremos complementar o produto
 	da operação OR. Dessa maneira, teremos: ~(~x | ~y). Assim obtendo o resultado final.
 	*/
     return ~(~x | ~y);
