@@ -252,7 +252,28 @@ int32_t ehIgual(int32_t x, int32_t y) {
  *          mult7(7) -> 49
  */
 int32_t mult7(int32_t x) {
-    return -1;
+	/* Tendo em vista que desejamos realizar uma multiplicação, podemos utilizar o operador
+	"<<" deslocamento à esquerda, uma vez que, se usado no "x", por exemplo, ele pode
+	multiplicar o número por múltiplos de 2 (2, 4, 8, 16, 32, 64...), uma vez que esse operador
+	move o número para um valor mais significativo.
+	Exemplificando: se usarmos x<<1 , ele moverá o "x" em 1 casa à esquerda. É importante
+	lembrar que, assim como quando convertemos de binário para decimais, 
+	cada casa é considerada, com o "2" elevado ao número correspondente. 
+	Então, sabendo que "2 elevado a 1" é igual a 2, teremos o valor x multiplicado por 2.
+	No entanto, como dito anteriormente, o operador "<<" permite que multipliquemos por
+	múltiplos de 2. Como desejamos multiplicar por 7, não seria possível executar a função
+	somente com a operação "<<", uma vez que não conseguiríamos o 7 com o incremento do expoente de 2 (2, 4, 8, 16...).
+	Devido a isso, alcançamos o 7 de outra maneira. 
+	Sabendo que uma multiplicação por 7 pode ser compreendida como uma soma do mesmo número
+	7 vezes, podemos multiplicar o "x" por um número maior, e subtrair o valor que ultrapassa nosso objetivo. 
+	Exemplo: Se queremos obter o resultado da multiplicação de "7 por 2",
+	podemos multiplicar "8 por 2", e teremos como resultado 16. Ou seja, 16 é igual à soma de oito números com valor 2.
+	Sendo assim, se tirarmos um número de valor 2 desse resultado, obteremos a soma de 7 números com valor 2. 
+	16 - 2 = 14 (resultado da multiplicação de 7 por 2).
+	Assim, uma boa opção é utilizar (x<<3)-x, pois "2 elevado a 3" é igual a 8, o que fará nosso
+	número ser multiplicado por 8, e subtrair x, que fará com que encontremos nossa multiplicação por 7.
+	*/
+    return (x<<3)-x;
 }
 
 /*
