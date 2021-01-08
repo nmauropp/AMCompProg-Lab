@@ -20,10 +20,15 @@
  *          matéria consiga entender o que foi feito, em detalhes.
  *      - As resoluções com menos operações do que a do monitor terão bonificação.
  *
- * Assinatura:
- *      Aluno: <nome>
- *      DRE: <DRE>
- *      versão do GCC utilizada: XX.XX.XX
+ * Assinatura da dupla:
+ *      Aluno 1: Álvaro de Carvalho Alves
+ *      DRE 1: 118183211
+
+ 		Aluno 2: Mauro Victor de Araújo Nascimento
+ 		DRE 2: 118090256
+
+ *      versão do GCC utilizada: 9.3.0
+
  *
  */
 
@@ -337,10 +342,29 @@ int32_t bitEmP(int32_t x, uint8_t p) {
  *          byteEmP(0x12345678, 1) -> 0x56
  *          byteEmP(0x12345678, 2) -> 0x34
  *          byteEmP(0x12345678, 3) -> 0x12
- *
  */
 int32_t byteEmP(int32_t x, uint8_t p) {
-    return -1;
+	/*	Para esta função, considerando que separamos o número "x" em 4 partes (0, 1, 2 e 3),
+	é importante compreendermos que, se tratando de um byte, cada byte possui 8 bits. 
+
+	Dessa maneira, para que nosso número "p" se desloque entre os bytes, ele precisa andar
+	8 bits a cada byte que desejamos. Ou seja, se queremos p=2, precisamos andar 2 * 8 bits = 16 bits.
+
+	Para que esse caminho de 8 em 8 bits ocorra, precisamos multiplicar "p" por um valor que nos permita
+	andar esse número de bits. No caso, se utilizarmos "p<<3", nosso "p" andará 3 casas para a esquerda,
+	sendo multiplicado por "2 elevado a 3" = 8. Assim, nosso "p" andará por 8 bits seguindo a multiplicação
+	que citamos no parágrafo acima.
+
+	Visto que já conseguimos o valor necessário para o deslocamento, agora precisamos aplicá-lo ao número "x"
+	que receberemos. Uma maneira de fazê-lo é com "x>>(p<<3)", pois com o operador ">>" o x será movido à direita,
+	levando seus bits mais significativos para este lado. Dessa maneira conseguiremos manipular nossos bytes.
+
+	Por fim, como é necessário que o valor de retorno da função esteja entre 0 e 0xFF, é necessário que
+	filtremos os bytes, obtendo somente o que é do nosso interesse: o byte indicado pelo "p". Para isso,
+	podemos utilizar a função "&" com um número de dois dígitos, para pegarmos somente os dois números que
+	desejamos. Dessa maneira, faremos: "x>>(p<<3) & 0xFF", obtendo o resultado desejado pela função.
+	*/
+	return x>>(p<<3) & 0xFF;
 }
 
 /*
