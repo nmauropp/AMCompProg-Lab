@@ -168,10 +168,11 @@ int32_t bitwiseAnd(int32_t x, int32_t y) {
 	que compare valores. Contudo, comparar os valores de "x" e "y" com operadores "|" ou "^" 
 	por si só não nos traria o resultado esperado. 
 
-	Desejamos a operação AND "&", que é contrária à operação OR "|". Enquanto o operador AND
-	repete o valor "1" quando ele está presente nos bits dos dois números comparados, o operador
-	OR repete o valor "1" simplesmente por ele estar presente no bit de pelo menos um dos dois
-	números comparados.
+	Desejamos a operação AND "&", e, baseado no Teorema de De Morgan, existe uma relação desta com a operação OR "|", quando complementamos suas variáveis.
+	Portanto, faz sentido que usemos a operação OR com o complemento nas variáveis. 
+
+	Enquanto o operador AND repete o valor "1" quando ele está presente nos bits dos dois números comparados, o operador
+	OR repete o valor "1" simplesmente por ele estar presente no bit de pelo menos um dos dois números comparados.
 
 	Por isso, iremos complementar os valores recebidos, invertendo-os, utilizando o operador "~"
 	em cada um, além de realizar uma operação OR, obtendo: (~x | ~y). Contudo, ainda não será suficiente.
