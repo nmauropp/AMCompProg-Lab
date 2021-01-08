@@ -49,6 +49,12 @@
  *          naoEhZero(7) -> 1
  */
 int32_t naoEhZero(int32_t x) {
+    /*
+      O operador ! transforma tudo que é 0 em 1 e tudo que é diferente de 0 em 0
+      Ou seja, quando usamos esse operador uma vez, ele irá retornar 1 somente quando a entrada for 0
+      Como queremos que ele retorne 1 quando a entrada não é zero, podemos usar o operador novamente, invertendo o resultado final
+    */
+
     return !!x;
 }
 
@@ -98,7 +104,20 @@ int32_t ehPar(int32_t x) {
  *          mod8(10) -> 2
  */
 int32_t mod8(int32_t x) {
-    return -1;
+    /*
+      Para achar o módulo, podemos dividir o número por 8 e pegar o resto da divisão
+      Ou seja, escrever x = 8 * quociente + resto
+      Se x é positivo, podemos escrever x = 2^31 * d31 + ... + 2^3 * d3 + 2^2 * d2 + 2^1 * d1 + 2^0 * d0
+      Onde d31...d0 são os bits do número
+      Podemos colocar o 8 em evidência e reescrever x = 8 * (2^28 * d31 + ... + 2^0 * d3) + 2^2 * d2 + 2^1 * d1 + 2^0 * d0
+      Ou seja, o resto da divisão por 8 só considerará os últimos 3 bits do número
+      Portanto, podemos ignorar todos os outros bits, aplicando uma máscara 0b0...0111 que zerará todos os primeiros bits do número
+
+      Se x for negativo, representao em complemento a dois, podemos escrever como x = -2^31 * d31 + ... + 2^3 * d3 + 2^2 * d2 + 2^1 * d1 + 2^0 * d0
+      E de maneira análoga a anterior, conseguir o módulo usando a mesma máscara
+    */
+	
+    return x & 0x7;
 }
 
 /* Número positivo ou não
@@ -145,7 +164,17 @@ int32_t ehPositivo(int32_t x) {
  *          negativo(42) -> -42
  */
 int32_t negativo(int32_t x) {
-    return -1;
+    /*
+      O algoritmo para encontrar o negativo de um número consiste em inverter os bits dele e somar um
+      Isso pode ser executado diretamente pelo operador ~ que inverterá todos os bits e depois somando 1 ao resultado
+
+      O algoritmo funciona da seguinte forma:
+      O complemento a dois em 32 bits deve ser calculado subtraindo o número de 2^32
+      Porém essa operação é mais fácil de ser feita se subtrairmos o número de 2^32 - 1 e depois somarmos 1
+      Pois subtrair um número binário de 32 bits de 2^32 - 1 é equivalente a inverter todos os seus bits
+    */
+
+    return ~x + 1;
 }
 
 /* Implementação do & usando bitwise
@@ -180,6 +209,7 @@ int32_t bitwiseAnd(int32_t x, int32_t y) {
 	Adicionado a isso, por se tratar de uma operação contrária, precisaremos complementar o produto
 	da operação OR. Dessa maneira, teremos: ~(~x | ~y). Assim obtendo o resultado final.
 	*/
+
     return ~(~x | ~y);
 }
 
@@ -197,7 +227,16 @@ int32_t bitwiseAnd(int32_t x, int32_t y) {
  *          ehIgual(16, 8) -> 0
  */
 int32_t ehIgual(int32_t x, int32_t y) {
-    return -1;
+    /*
+      A operação xor irá retornar 1 quando os bits são diferentes e zero quando os bits são iguais
+      Fazendo essa operação bit a bit, quando os números forem identicos, todos seus bits serão iguais, portanto o resultado será zero
+      Se os números são diferentes, o resultado da operação bit a bit uma coisa qualquer diferente de ehZero
+
+      Então usamos o ! para transformar o 0 em 1 e o que for diferente de 0 em 0
+      Dessa forma, retornamos 1 quando os números forem iguais e 0 quando diferentes
+    */
+
+    return !(x ^ y);
 }
 
 /*
@@ -218,24 +257,20 @@ int32_t mult7(int32_t x) {
 	"<<" deslocamento à esquerda, uma vez que, se usado no "x", por exemplo, ele pode
 	multiplicar o número por múltiplos de 2 (2, 4, 8, 16, 32, 64...), uma vez que esse operador
 	move o número para um valor mais significativo.
-
 	Exemplificando: se usarmos x<<1 , ele moverá o "x" em 1 casa à esquerda. É importante
 	lembrar que, assim como quando convertemos de binário para decimais, 
 	cada casa é considerada, com o "2" elevado ao número correspondente. 
 	Então, sabendo que "2 elevado a 1" é igual a 2, teremos o valor x multiplicado por 2.
-
 	No entanto, como dito anteriormente, o operador "<<" permite que multipliquemos por
 	múltiplos de 2. Como desejamos multiplicar por 7, não seria possível executar a função
 	somente com a operação "<<", uma vez que não conseguiríamos o 7 com o incremento do expoente de 2 (2, 4, 8, 16...).
 	Devido a isso, alcançamos o 7 de outra maneira. 
-
 	Sabendo que uma multiplicação por 7 pode ser compreendida como uma soma do mesmo número
 	7 vezes, podemos multiplicar o "x" por um número maior, e subtrair o valor que ultrapassa nosso objetivo. 
 	Exemplo: Se queremos obter o resultado da multiplicação de "7 por 2",
 	podemos multiplicar "8 por 2", e teremos como resultado 16. Ou seja, 16 é igual à soma de oito números com valor 2.
 	Sendo assim, se tirarmos um número de valor 2 desse resultado, obteremos a soma de 7 números com valor 2. 
 	16 - 2 = 14 (resultado da multiplicação de 7 por 2).
-
 	Assim, uma boa opção é utilizar (x<<3)-x, pois "2 elevado a 3" é igual a 8, o que fará nosso
 	número ser multiplicado por 8, e subtrair x, que fará com que encontremos nossa multiplicação por 7.
 	*/
@@ -269,7 +304,14 @@ int32_t mult7(int32_t x) {
  *
  */
 int32_t bitEmP(int32_t x, uint8_t p) {
-    return -1;
+    /*
+      Para executar essa operação, podemos deslocar todos os bits do número p vezes para a esquerda
+      Isso fara com que o bit na posição p seja colocado na posição 1
+
+      Daí podemos aplicar uma máscara para ignorar todos os bits que não são o menos significativo
+    */
+
+    return (x >> p) & 0x1;
 }
 
 /*
@@ -314,7 +356,29 @@ int32_t byteEmP(int32_t x, uint8_t p) {
  *
  */
 int32_t negacaoLogica(int32_t x) {
-    return -1;
+    /*
+      Para negar o número lógicamente precisamos retornar 0 quando ele for diferente de 0 e 1 quando for igual a zero
+
+      Para isso, podemos aproveitar do operador de deslocamento a esquerda, que preenche todos os bits deslocados com 1 se o número for negativo
+      Com isso, para números negativos, iremos preencher todos os bits dele com 1, se deslocarmos 31 vezes
+
+      Caso o número não seja negativo, podemos calcular o complemento a dois dele, o tornando negativo
+
+      Se o número for 0, tanto ele quanto o complemento a 2 dele será 0
+
+      Dessa forma, para todo número que não seja 0, quando fizermos (x | (~x + 1)) o bit mais significativo prevalecerá como 1
+      Pois entre x e (~x + 1) algum será negativo
+      Se o número for 0, o bit mais significativo prevalecerá sendo 0
+
+      Então podemos deslocar esse bit mais significativo até o menos significativo usando a operação >> 31
+
+      Até esse momento, se x = 0, o resultado parcial será 0. Se x != 0, o resultado parcial será - 2^31
+
+      Para chegar ao resultado final, podemos somar 1. Então, se o resultado parcia for zero, o resultado final será 1
+      Já se o resultado parcial for -2^31, forçaremos um overflow e o resultado final será 0
+    */
+
+    return ((x | (~x + 1)) >> 31) + 1;
 }
 
 void teste(int32_t saida, int32_t esperado) {
