@@ -49,7 +49,7 @@
  *          naoEhZero(7) -> 1
  */
 int32_t naoEhZero(int32_t x) {
-    return -1;
+    return !!x;
 }
 
 /* Número é par ou não
@@ -67,7 +67,19 @@ int32_t naoEhZero(int32_t x) {
  *          ehPar(7) -> 0
  */
 int32_t ehPar(int32_t x) {
-    return -1;
+
+	/* Para esta função foi necessário o uso de dois operadores. 
+
+	Primeiramente o "&" operador AND, que visualiza os bits dos valores passados. 
+	Quando comparamos dois valores, esse operador retorna os bits que aparecem 
+	nestes dois valores comparados. Dessa forma, ao colocarmos "x & 1" nós testamos
+	se o "1" está presente no bit menos significativo de "x". 
+
+	Essa operação retornará 1 se x por ímpar, e 0 se x for par. Logo, para seguir
+	o comando da questão, precisamos inverter os valores, e por isso utilizamos 
+	o operador "!", que inverterá o "1" para "0" e o "0" para "1". Desse modo, 
+	teremos a função retornando 1 se x é par, e 0 caso contrário.*/
+    return !(x & 1);
 }
 
 /*
