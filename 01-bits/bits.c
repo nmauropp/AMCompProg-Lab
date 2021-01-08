@@ -115,7 +115,20 @@ int32_t mod8(int32_t x) {
  *          ehPositivo(-343) -> 0
  */
 int32_t ehPositivo(int32_t x) {
-    return -1;
+	/* Para saber se o número é positivo ou não, podemos utilizar seus bits, uma vez que
+	o bit mais significativo de um número binário representa seu sinal. Quando o número for
+	positivo, o bit de sinal será "0", e caso contrário, o bit de sinal será "1".
+
+	Portanto, utilizaremos o operador ">>" para fazer um deslocamento à direita em 31 casas,
+	para que consigamos obter o bit mais significativo.
+	Quando isso acontecer, os números negativos serão retornados como "-1", e os demais números
+	serão retornados como "0". 
+
+	Para que consigamos retornar 1 quando o número for positivo e 0 caso contrário, precisamos
+	do operador "!", que transformará o "-1" em "0" e o "0" em "1". Assim, conseguimos 
+	o resultado desejado.*/
+	return !(x>>31);
+    
 }
 
 /* Negativo sem -
@@ -151,7 +164,18 @@ int32_t negativo(int32_t x) {
  *              11 & 1011 -> 0011
  */
 int32_t bitwiseAnd(int32_t x, int32_t y) {
-    return -1;
+	/* Para obter o resultado esperado desta função, é necessário utilizarmos um operador
+	que compare valores. Contudo, comparar os valores de "x" e "y" com operadores "|" ou "^" 
+	por si só não nos traria o resultado esperado. 
+
+	Desejamos a operação AND "&", que é contrária à operação OR "|". Por isso, iremos 
+	complementar os valores recebidos, utilizando o operador "~" em cada um, além de
+	realizar uma operação OR, obtendo: (~x | ~y). Contudo, ainda não será suficiente.
+
+	Adicionado a isso, por se tratar de uma operação inversa, precisaremos complementar o produto
+	da operação OR. Dessa maneira, teremos: ~(~x | ~y). Assim obtendo o resultado final.
+	*/
+    return ~(~x | ~y);
 }
 
 /* Igual sem ==
