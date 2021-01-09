@@ -23,12 +23,12 @@
  * Assinatura da dupla:
  *      Aluno 1: Álvaro de Carvalho Alves
  *      DRE 1: 118183211
-
- 		Aluno 2: Mauro Victor de Araújo Nascimento
- 		DRE 2: 118090256
-
+ *
+ *      Aluno 2: Mauro Victor de Araújo Nascimento
+ *      DRE 2: 118090256
+ *
  *      versão do GCC utilizada: 9.3.0
-
+ *
  *
  */
 
@@ -315,9 +315,9 @@ int32_t mult7(int32_t x) {
 int32_t bitEmP(int32_t x, uint8_t p) {
     /*
       Para executar essa operação, podemos deslocar todos os bits do número p vezes para a direita
-      Isso fara com que o bit na posição p seja colocado na posição 1
+      Isso fara com que o bit na posição p seja colocado na posição 0, se tornando o bit menos significativo
 
-      Daí podemos aplicar uma máscara para ignorar todos os bits que não são o menos significativo
+      Daí podemos aplicar uma máscara para ignorar todos os bits que não são esse menos significativo
     */
     return (x >> p) & 0x1;
 }
@@ -386,7 +386,7 @@ int32_t negacaoLogica(int32_t x) {
     /*
       Para negar o número lógicamente precisamos retornar 0 quando ele for diferente de 0 e 1 quando for igual a zero
 
-      Para isso, podemos aproveitar do operador de deslocamento a esquerda, que preenche todos os bits deslocados com 1 se o número for negativo
+      Para isso, podemos aproveitar do operador de deslocamento a direita, que preenche todos os bits deslocados com 1 se o número for negativo
       Com isso, para números negativos, iremos preencher todos os bits dele com 1, se deslocarmos 31 vezes
 
       Caso o número não seja negativo, podemos calcular o complemento a dois dele, o tornando negativo
@@ -401,7 +401,7 @@ int32_t negacaoLogica(int32_t x) {
 
       Até esse momento, se x = 0, o resultado parcial será 0. Se x != 0, o resultado parcial será - 2^31
 
-      Para chegar ao resultado final, podemos somar 1. Então, se o resultado parcia for zero, o resultado final será 1
+      Para chegar ao resultado final, podemos somar 1. Então, se o resultado parcial for zero, o resultado final será 1
       Já se o resultado parcial for -2^31, forçaremos um overflow e o resultado final será 0
     */
 
